@@ -33,7 +33,7 @@ function computeX() {
         errorPercent += Math.abs((newX[i] - realX[i])/realX[i])
     }
     errp1 = errorPercent/(realX.length)
-    console.log(`横向平均误差率为 ${errp1}`);
+    // console.log(`横向平均误差率为 ${errp1}`);
     return newX;
 }
 
@@ -69,7 +69,7 @@ function gene2Arr(j){
         result.push(newX.pop());
         errorPercent += Math.abs((result[result.length-1] - realX[i])/realX[i]);
     }
-    console.log(`纵向平均误差率${errorPercent/timeArr.length}`);
+    // console.log(`纵向平均误差率${errorPercent/timeArr.length}`);
     return {
         errp: errorPercent/timeArr.length,
         result
@@ -93,7 +93,7 @@ function getHistoryArr(){
         historyErrArr.push(r.errp);
     }
     errp2 = minerrp;
-    console.log(`历史天数 为${min}时误差率最小${minerrp}`);    
+    // console.log(`历史天数 为${min}时误差率最小${minerrp}`);    
 }
 getHistoryArr();
 
@@ -123,14 +123,15 @@ function getMin() {
         }
     }
     errp3 = min;
-    console.log(`gama 为${mingama}时结合后平均误差率${min}`);
+    // console.log(`gama 为${mingama}时结合后平均误差率${min}`);
 }
 getMin();
 let combX = combine(0.677).arr;
 
-var gamaOption = {
+var result = {};
+result.gamaOption = {
     title: {
-        text: '不同r误差率变化图'
+        text: '不同γ下误差率变化图'
     },
     tooltip: {
         trigger: 'axis'
@@ -166,7 +167,7 @@ var gamaOption = {
     ]
 };
 
-var errOption =  {
+result.errOption =  {
     title: {
         text: '误差率变化图'
     },
@@ -204,9 +205,46 @@ var errOption =  {
     ]
 };
 
-var option = {
+result.option = {
     title: {
-        text: '客流趋势图'
+        text: '实际客流趋势图'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data:[]
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: time.map(item=>moment(item).format('HH:mm'))
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            name:'实际客流',
+            type:'line',
+            data: realX
+        }
+    ]
+};
+result.option1 = {
+    title: {
+        text: '单日数据预测效果'
     },
     tooltip: {
         trigger: 'axis'
@@ -240,23 +278,96 @@ var option = {
             data: realX
         },
         {
-            name:'同比预测客流',
+            name:'预测客流',
             type:'line',
-            data: historyArr
+            data: dayArr
         },
-        // {
-        //     name:'环比预测客流',
-        //     type:'line',
-        //     data: dayArr
-        // },
-        // {
-        //     name:'综合预测客流',
-        //     type:'line',
-        //     data: combX
-        // }
+        
     ]
 };
-console.log(`3误差率相对于1下降了${(errp1-errp3)/(errp1)}`);
-console.log(`3误差率相对于2下降了${(errp2-errp3)/(errp2)}`);
+result.option2 = {
+    title: {
+        text: '多日同时段数据预测效果'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data:[]
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: time.map(item=>moment(item).format('HH:mm'))
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            name:'实际客流',
+            type:'line',
+            data: realX
+        },
+        {
+            name:'预测客流',
+            type:'line',
+            data: historyArr
+        }
+    ]
+};
+result.option3 = {
+    title: {
+        text: '综合预测效果'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data:[]
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: time.map(item=>moment(item).format('HH:mm'))
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            name:'实际客流',
+            type:'line',
+            data: realX
+        },
+        {
+            name:'预测客流',
+            type:'line',
+            data: combX
+        }
+    ]
+};
 
-module.exports = gamaOption;
+module.exports = result;
