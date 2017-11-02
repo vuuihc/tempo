@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>数据可视化</title>
+    <script src="/echarts.min.js"></script>
+    <script src="/jquery.js"></script>
+</head>
+<body>
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <script>
+        var myChart = echarts.init(document.getElementById('main'));
+        $.get('/data',function(res){
+            console.log(res);
+            myChart.setOption(res);
+        });
+    </script>
+</body>
+</html>
