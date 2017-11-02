@@ -9,14 +9,6 @@
     <script src="/jquery.js"></script>
 </head>
 <body>
-<<<<<<< HEAD
-    <div id="main" style="width: 600px;height:400px;"></div>
-    <script>
-        var myChart = echarts.init(document.getElementById('main'));
-        $.get('/data',function(res){
-            console.log(res);
-            myChart.setOption(res);
-=======
     <div id="main0" style="width: 600px;height:400px;"></div>
     <div id="main1" style="width: 600px;height:400px;"></div>
     <div id="main2" style="width: 600px;height:400px;"></div>
@@ -32,7 +24,6 @@
                 charts[index].setOption(res[key]);
                 index++;
             }
->>>>>>> first commit
         });
     </script>
 </body>
